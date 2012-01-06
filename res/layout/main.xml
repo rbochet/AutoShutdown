@@ -10,4 +10,5 @@
     </LinearLayout>
     <CheckBox android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/autosd_enable_text" android:id="@+id/autosd_check_enable"></CheckBox>
     <Button android:text="@string/autosd_validate" android:layout_height="wrap_content" android:id="@+id/button1" android:layout_width="fill_parent"></Button>
+    <TextView android:id="@+id/textView2" android:layout_height="wrap_content" android:text="@string/autosd_warning_root" android:layout_width="wrap_content"></TextView>
 </LinearLayout>

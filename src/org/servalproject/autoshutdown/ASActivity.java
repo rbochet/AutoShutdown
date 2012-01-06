@@ -1,5 +1,8 @@
 package org.servalproject.autoshutdown;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -57,6 +60,18 @@ public class ASActivity extends Activity implements OnClickListener {
 		
 		// Signal to the user
 		Toast.makeText(this.getBaseContext(), R.string.autosd_done, Toast.LENGTH_LONG).show();
+		
+		// Check for the root access
+		try {
+			Process process = Runtime.getRuntime().exec("su");
+			DataOutputStream out = new DataOutputStream(
+					process.getOutputStream());
+			out.writeBytes("cat /dev/null\n");
+			out.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 
 	}
 }

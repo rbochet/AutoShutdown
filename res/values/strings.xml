@@ -5,4 +5,5 @@
     <string name="autosd_time_text">How many minutes before shutdown?</string>
     <string name="autosd_validate">OK</string>
     <string name="autosd_done">Changes saved.</string>
+    <string name="autosd_warning_root">You have to check the \"Remember root access\" for this app in order to let it halt with the lock. That's why we're probing it after you click on OK</string>
 </resources>
