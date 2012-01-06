@@ -4,4 +4,5 @@
     <string name="autosd_enable_text">Enable to restart</string>
     <string name="autosd_time_text">How many minutes before shutdown?</string>
     <string name="autosd_validate">OK</string>
+    <string name="autosd_done">Changes saved.</string>
 </resources>
