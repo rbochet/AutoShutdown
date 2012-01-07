@@ -7,6 +7,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.provider.Settings;
 import android.util.Log;
 
 public class UnlockWatcher extends BroadcastReceiver {
@@ -17,16 +19,16 @@ public class UnlockWatcher extends BroadcastReceiver {
 		Log.v("RB", "Hit !");
 
 		if (intent.toString().contains("BOOT")) {
-			
+
 			SharedPreferences settings = context.getSharedPreferences(
 					ASActivity.PREFS_NAME, 0);
 			boolean enabled = settings.getBoolean(ASActivity.ENABLED_NAME,
 					false);
-			
+
 			if (enabled) {
 				int timer = settings.getInt(ASActivity.TIMER_NAME, 5);
 
-				to = new TurnOff("goodbye", timer);
+				to = new TurnOff("goodbye", timer, context);
 			}
 		} else if (to != null) { // means unlock
 			Log.v("RB", "Get the unlock");
@@ -40,10 +42,12 @@ public class UnlockWatcher extends BroadcastReceiver {
 	class TurnOff extends Thread {
 		private boolean on = true;
 		private int timer;
+		private Context context;
 
-		public TurnOff(String name, int timer) {
+		public TurnOff(String name, int timer, Context context) {
 			super(name);
 			this.timer = timer;
+			this.context = context;
 			start();
 		}
 
@@ -54,9 +58,19 @@ public class UnlockWatcher extends BroadcastReceiver {
 
 		public void run() {
 			try {
-				long defuse_time = 1000 + 60 * 1000 + timer;
-				Log.v("RB", "Start countdown (" + defuse_time / 1000 + "s)");
-				Thread.sleep(defuse_time);
+				Log.v("RB", "Start countdown (" + 60 * timer + 1 + "s)");
+				for (int i = 0; i < timer; i++) {
+					if (!on)
+						break;
+					
+					// Beep
+					MediaPlayer player = MediaPlayer.create(this.context,
+							Settings.System.DEFAULT_ALARM_ALERT_URI);
+					player.start();
+					
+					// Wait 1 minute
+					Thread.sleep(60000);
+				}
 				Log.v("RB", "Countdown done !!");
 
 				if (on) {
